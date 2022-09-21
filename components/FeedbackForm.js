@@ -1,8 +1,25 @@
+import { useContext } from 'react';
+import AppContext from '../context/AppContext';
 import { Button, Input, TextArea } from './Inputs';
 
 export default function FeedbackForm() {
+  const value = useContext(AppContext);
+
+  const { feedbackData } = value.state;
+  const { setFeedbackData, setSubmitSuccessful } = value.trigger;
+
   async function handleSubmit(e) {
     e.preventDefault();
+
+    const data = {
+      firstName: feedbackData.firstName,
+      lastName: feedbackData.lastName,
+      feedback: feedbackData.feedback,
+    };
+
+    console.log(data);
+
+    setSubmitSuccessful(true);
   }
 
   return (
@@ -25,7 +42,9 @@ export default function FeedbackForm() {
             label={`Your First Name`}
             placeholder={`Fill in your first name`}
             type={`text`}
-            onChange={(e) => console.log(e)}
+            onChange={(e) =>
+              setFeedbackData({ ...feedbackData, firstName: e.target.value })
+            }
           />
 
           {/* Last Name */}
@@ -34,7 +53,9 @@ export default function FeedbackForm() {
             label={`Your Last Name`}
             placeholder={`Fill in your last name`}
             type={`text`}
-            onChange={(e) => console.log(e)}
+            onChange={(e) =>
+              setFeedbackData({ ...feedbackData, lastName: e.target.value })
+            }
           />
 
           {/* Feedback */}
@@ -42,7 +63,9 @@ export default function FeedbackForm() {
             id={`feedback`}
             label={`Your Feedback`}
             placeholder={`Describe your experience...`}
-            onChange={(e) => console.log(e)}
+            onChange={(e) =>
+              setFeedbackData({ ...feedbackData, feedback: e.target.value })
+            }
           />
         </div>
 
