@@ -17,9 +17,24 @@ export default function FeedbackForm() {
       feedback: feedbackData.feedback,
     };
 
-    console.log(data);
+    const JSONData = JSON.stringify(data);
 
-    setSubmitSuccessful(true);
+    const endpoint = 'api/mailtrap';
+
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSONData,
+    };
+
+    try {
+      await fetch(endpoint, options).then((res) => res.json());
+      setSubmitSuccessful(true);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
